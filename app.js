@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption');
 
 mongoose.connect('mongodb://localhost/usersDB',{ useUnifiedTopology: true , useNewUrlParser: true });
 
@@ -21,6 +22,12 @@ const userSchema = new mongoose.Schema({
         type:String
     }
 });
+var encKey = "thisisanencryptionkey";
+userSchema.plugin(encrypt,{
+    secret:encKey,
+    encryptedFields:['password']
+});
+
 const User = mongoose.model('user',userSchema);
 
 let defaultUser = new User({
@@ -56,11 +63,17 @@ app.post('/register',function(req,res){
    })
 });
 app.post('/login',function(req,res){
-    User.findOne({email:req.body.email , password:req.body.password} , function(err,foundUser){
+    User.findOne({email:req.body.email} , function(err,foundUser){
         if(!err){
             if(foundUser){
-                console.log('user match found! logging in....');
-                res.render('secrets');
+                if(foundUser.password === req.body.password){
+                    console.log('user match found! logging in....'+foundUser);
+                    res.render('secrets');
+                }
+                else{
+                    console.log('incorrect password entered');
+                    res.redirect('/login');
+                }
             }
             else{
                 console.log('user match not found!');
