@@ -1,0 +1,50 @@
+body{
+    background-color: darkorchid;
+    font-family: 'Righteous', cursive;
+    text-align:center;
+    margin-top:8rem;
+}
+.log-links a{
+text-decoration: none;
+padding: 0.5rem 1rem;
+margin:0.25rem;
+background-color: #59A7FF;
+color:#000;
+border:none;
+border-radius : 1px;
+}
+.log-links a:hover{
+    border:none;
+    background-color: #316196;
+}
+.register{
+    width:25%;
+    margin:auto;
+    padding:1rem;
+}
+.register-form{
+    margin:auto;
+    margin-top:3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.register-form input{
+    margin:0.25rem;
+    padding:0.75rem;
+    font-family: 'Righteous', cursive;
+    border: none;
+    border-radius:1px;  
+}
+.register-form button{
+    width:6rem;
+    margin:1rem auto;
+    padding:0.5rem;
+    font-family: 'Righteous', cursive;
+    border: none;
+    border-radius:1px;  
+    background-color: #59A7FF;
+}
+.register-form button:hover{
+    background-color: #316196;
+    border:none;

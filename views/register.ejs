@@ -1,0 +1,13 @@
+<%- include('partials/header') -%>
+<div style="background-color:rgba(0,0,0,0.1); border-radius: 1px;" class="register">
+    <div style="height:6rem;width:6rem;margin:auto">
+        <%- include('svgs/lock') -%>
+    </div>
+    <form class="register-form" action="/register" method="POST">
+        <input type="email" name="email" placeholder="Enter email">
+        <input type="password" name="password" placeholder="Enter password">
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<%- include('partials/footer') -%>
