@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const encrypt = require('mongoose-encryption');
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
 
 mongoose.connect('mongodb://localhost/usersDB',{ useUnifiedTopology: true , useNewUrlParser: true });
 
@@ -22,10 +23,6 @@ const userSchema = new mongoose.Schema({
         required:true,
         type:String
     }
-});
-userSchema.plugin(encrypt,{
-    secret:process.env.ENC_KEY,
-    encryptedFields:['password']
 });
 
 const User = mongoose.model('user',userSchema);
@@ -51,7 +48,7 @@ app.get('/login',function(req,res){
 app.post('/register',function(req,res){
    let newUser = new User({
        email: req.body.email,
-       password : req.body.password
+       password : bcrypt.hashSync(req.body.password, salt)
    }) ;
    newUser.save(function(err){
        if(!err){
@@ -66,7 +63,7 @@ app.post('/login',function(req,res){
     User.findOne({email:req.body.email} , function(err,foundUser){
         if(!err){
             if(foundUser){
-                if(foundUser.password === req.body.password){
+                if(bcrypt.compareSync(req.body.password, foundUser.password)){
                     console.log('user match found! logging in....'+foundUser);
                     res.render('secrets');
                 }
